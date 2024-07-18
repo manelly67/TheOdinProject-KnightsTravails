@@ -1,0 +1,59 @@
+import {Gameboard} from './gameboard.js';
+
+class Travails {
+
+        constructor(){
+
+        this.newboard = new Gameboard;
+       
+        }
+
+        pathFind(start, end) {
+          switch(this.newboard.squareInBoard(start)===true && this.newboard.squareInBoard(end)===true){
+            case true:
+              const qq = [[start]];
+
+              const checkList = new Set();
+          
+              while(qq.length){
+              const path = qq.shift();
+              /* console.log(path); */
+              const [x, y] = path[path.length - 1];
+              /* console.log(path[path.length - 1]); */
+
+              if(x === end[0] && y === end[1]) {
+              this.printResult(path);
+              return path;
+              }
+              
+              for (const [newX, newY] of this.newboard.possibleMoves([x,y])) {
+               /*    console.log([newX, newY]); */
+
+              if( !checkList.has(`${newX}-${newY}`)) {
+                  checkList.add(`${newX}-${newY}`);
+                  qq.push([...path, [newX, newY]]);
+                 /*  console.log(qq); */
+                }
+              }
+            }
+           
+            default:
+              console.log('index out of range');
+              return null;
+          }
+      }
+
+      printResult(path){
+        switch(path.length===1){
+          case true:
+          console.log(`You were already at your destination. You don't need any moves`);
+          break;
+          default:
+          console.log(`You made it in ${path.length-1} moves! Here's your path:`);
+          path.map((x)=> console.log(x));
+        } 
+      }
+
+}
+
+export {Travails};
